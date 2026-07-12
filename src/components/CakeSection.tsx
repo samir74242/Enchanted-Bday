@@ -508,7 +508,7 @@ export const CakeSection: React.FC<CakeSectionProps> = ({
                     <div className="absolute -top-2 left-6 w-9 h-3.5 bg-stone-300/30 border border-stone-200/10 backdrop-blur-[1px] rotate-[15deg] shadow-sm pointer-events-none" />
                     
                     <img
-                      src="/images/polaroid image.png?q=80&w=400&auto=format&fit=crop"
+                      src="images/polaroid image.png?q=80&w=400&auto=format&fit=crop"
                       alt="Mirror Selfie Him"
                       className="w-full h-[76px] object-cover grayscale brightness-[90%] sepia-[15%] rounded-sm"
                       referrerPolicy="no-referrer"
@@ -526,7 +526,7 @@ export const CakeSection: React.FC<CakeSectionProps> = ({
                     <div className="absolute -top-2.5 right-6 w-9 h-3.5 bg-stone-300/30 border border-stone-200/10 backdrop-blur-[1px] rotate-[-10deg] shadow-sm pointer-events-none" />
                     
                     <img
-                      src="/images/image2.png?q=80&w=400&auto=format&fit=crop"
+                      src="images/image2.png?q=80&w=400&auto=format&fit=crop"
                       alt="Mirror Selfie Her"
                       className="w-full h-[76px] object-cover grayscale brightness-[95%] sepia-[10%] rounded-sm"
                       referrerPolicy="no-referrer"
@@ -544,7 +544,7 @@ export const CakeSection: React.FC<CakeSectionProps> = ({
                     <div className="absolute -top-2 left-6 w-8 h-3 bg-stone-200/40 border border-white/10 backdrop-blur-[0.5px] rotate-[3deg] shadow-sm pointer-events-none" />
                     
                     <img
-                      src="/images/HANDS.jpeg?q=80&w=400&auto=format&fit=crop"
+                      src="images/HANDS.jpeg?q=80&w=400&auto=format&fit=crop"
                       alt="Hands Touching"
                       className="w-full h-[68px] object-cover brightness-[102%] saturate-[75%] rounded-sm"
                       referrerPolicy="no-referrer"

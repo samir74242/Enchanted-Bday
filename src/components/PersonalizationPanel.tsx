@@ -126,7 +126,7 @@ export const PersonalizationPanel: React.FC<PersonalizationPanelProps> = ({ conf
       const jsonStr = JSON.stringify(localConfig);
       // Base64 encode the config string to pass inside URL hash
       const base64Config = btoa(unescape(encodeURIComponent(jsonStr)));
-      const shareUrl = `${window.location.origin}/#config=${base64Config}`;
+      const shareUrl = `${window.location.origin}${window.location.pathname}#config=${base64Config}`;
       
       navigator.clipboard.writeText(shareUrl);
       setCopied(true);
@@ -134,31 +134,6 @@ export const PersonalizationPanel: React.FC<PersonalizationPanelProps> = ({ conf
       triggerStatus("Share link copied to clipboard! 📋", "success");
     } catch (e) {
       triggerStatus("Failed to create shareable link.", "error");
-    }
-  };
-
-  const [syncing, setSyncing] = useState(false);
-
-  const handleSyncToCodebase = async () => {
-    setSyncing(true);
-    try {
-      const response = await fetch('/api/save-config', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(localConfig),
-      });
-      if (response.ok) {
-        triggerStatus("Successfully baked configuration into codebase! 🎉 You can now deploy to Vercel and it will default to this.", "success");
-      } else {
-        const errData = await response.json();
-        triggerStatus(`Failed to sync config: ${errData.error || response.statusText}`, "error");
-      }
-    } catch (err: any) {
-      triggerStatus(`Failed to connect to dev server API: ${err.message || err}`, "error");
-    } finally {
-      setSyncing(false);
     }
   };
 
@@ -554,23 +529,6 @@ export const PersonalizationPanel: React.FC<PersonalizationPanelProps> = ({ conf
                 </div>
               ) : (
                 <>
-                  {/* AI Studio Sync to Codebase Action */}
-                  {(window.location.hostname === 'localhost' || window.location.hostname.includes('run.app')) && (
-                    <div className="mb-2">
-                      <button
-                        onClick={handleSyncToCodebase}
-                        disabled={syncing}
-                        className="w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:brightness-115 text-white text-xs font-bold uppercase tracking-wider transition active:scale-95 disabled:opacity-50 cursor-pointer shadow-md shadow-emerald-950/20"
-                      >
-                        <Check size={14} className={syncing ? "animate-spin" : ""} />
-                        {syncing ? "Baking into Codebase..." : "⚡ Save to Codebase (Freeze for Vercel) ⚡"}
-                      </button>
-                      <p className="text-[10px] text-emerald-400/80 text-center mt-1 font-sans">
-                        Saves this exact personalization into the source code as the permanent production default!
-                      </p>
-                    </div>
-                  )}
-
                   <div className="grid grid-cols-2 gap-3 text-xs">
                     <button
                       onClick={handleCopyShareLink}
