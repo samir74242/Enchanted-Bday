@@ -47,5 +47,4 @@ export interface AppConfig {
   gallery: GalleryMemory[];
   clues: TreasureClue[];
   futureWishes: FutureWish[];
-  cakeDecorationImage?: string;
 }

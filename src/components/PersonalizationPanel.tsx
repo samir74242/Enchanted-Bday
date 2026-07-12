@@ -432,7 +432,7 @@ export const PersonalizationPanel: React.FC<PersonalizationPanelProps> = ({ conf
                         />
                       </div>
                       <div>
-                        <label className="block text-[11px] text-gray-400 mb-1">Unlocked Clue Image URL / Path (e.g. /images/VIDEOCALL.jpeg)</label>
+                        <label className="block text-[11px] text-gray-400 mb-1">Unlocked Clue Image URL / Path (e.g. images/VIDEOCALL.jpeg)</label>
                         <input
                           type="text"
                           value={c.secretImage}
