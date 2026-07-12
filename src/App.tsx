@@ -38,38 +38,10 @@ import { BloomingCanvas } from './components/BloomingCanvas';
 import { ConstellationCanvas } from './components/ConstellationCanvas';
 import { CakeSection } from './components/CakeSection';
 import { AnimatedLetter } from './components/AnimatedLetter';
-import { PersonalizationPanel } from './components/PersonalizationPanel';
 
 export default function App() {
-  // Load configuration from URL Hash (for sharing) -> then localStorage -> then fallback to defaultConfig
-  const [config, setConfig] = useState<AppConfig>(() => {
-    try {
-      const hash = window.location.hash;
-      if (hash && hash.startsWith('#config=')) {
-        const base64 = hash.replace('#config=', '');
-        const jsonStr = decodeURIComponent(escape(atob(base64)));
-        const parsed = JSON.parse(jsonStr);
-        if (parsed.herName && parsed.specialDate) {
-          // Save shared config to local storage too
-          localStorage.setItem('birthday_story_config', jsonStr);
-          return parsed;
-        }
-      }
-    } catch (e) {
-      console.warn("Failed to parse config from URL hash", e);
-    }
-
-    try {
-      const saved = localStorage.getItem('birthday_story_config');
-      if (saved) {
-        return JSON.parse(saved);
-      }
-    } catch (e) {
-      console.warn("Failed to load config from localStorage", e);
-    }
-
-    return defaultConfig;
-  });
+  // Configuration loaded directly from defaultConfig (fixed & permanent)
+  const config = defaultConfig;
 
   // Stage Management:
   // 0: Entry / Music Lock (Establishes AudioContext)
@@ -90,44 +62,7 @@ export default function App() {
   // Transition state
   const [bloomingActive, setBloomingActive] = useState(false);
 
-  // Client-side routing state ('main' or 'personalization')
-  const [currentRoute, setCurrentRoute] = useState<'main' | 'personalization'>(() => {
-    const path = window.location.pathname;
-    const hash = window.location.hash;
-    if (path === '/personalization' || hash === '#/personalization' || hash.startsWith('#/personalization') || hash.startsWith('#config=')) {
-      // In case we have shared config hash, let's keep it main unless it's explicitly personalization hash
-      if (hash.startsWith('#/personalization')) {
-        return 'personalization';
-      }
-      return path === '/personalization' ? 'personalization' : 'main';
-    }
-    return 'main';
-  });
-
-  const navigate = (route: 'main' | 'personalization') => {
-    const url = route === 'personalization' ? '/personalization' : '/';
-    window.history.pushState({}, '', url);
-    setCurrentRoute(route);
-  };
-
-  useEffect(() => {
-    const handleLocationChange = () => {
-      const path = window.location.pathname;
-      const hash = window.location.hash;
-      if (path === '/personalization' || hash === '#/personalization' || hash.startsWith('#/personalization')) {
-        setCurrentRoute('personalization');
-      } else {
-        setCurrentRoute('main');
-      }
-    };
-
-    window.addEventListener('popstate', handleLocationChange);
-    window.addEventListener('hashchange', handleLocationChange);
-    return () => {
-      window.removeEventListener('popstate', handleLocationChange);
-      window.removeEventListener('hashchange', handleLocationChange);
-    };
-  }, []);
+  // No configuration customization required - Fixed single main experience
 
   // Audio Synthesizer Controls
   const synthRef = useRef<AmbientAudioSynth>(new AmbientAudioSynth());
@@ -428,18 +363,8 @@ export default function App() {
     }
   }, [stage]);
 
-  // Handle configuration updates from Personalizer Panel
-  const handleSaveConfig = (newConfig: AppConfig) => {
-    setConfig(newConfig);
-    localStorage.setItem('birthday_story_config', JSON.stringify(newConfig));
-  };
-
-  const handleResetConfig = () => {
-    localStorage.removeItem('birthday_story_config');
-    setConfig(defaultConfig);
-    // Remove custom hash from URL to fully reset default story
-    window.location.hash = '';
-  };
+  // Fixed configuration
+  // No configuration updates required
 
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-[#1b0513] via-[#0b0208] to-[#040003] text-[#FFFDF8] font-sans overflow-x-hidden flex flex-col justify-between selection:bg-pink-500/30 selection:text-pink-200">
@@ -450,43 +375,22 @@ export default function App() {
       {/* Spectacular Canvas that animates blooming floral vines on password success */}
       <BloomingCanvas active={bloomingActive} onComplete={handleBloomComplete} />
 
-      {currentRoute === 'personalization' ? (
-        <div className="flex-grow flex flex-col items-center justify-center py-10 px-4 z-10 relative">
-          <div className="text-center mb-6">
-            <h1 className="font-serif text-3xl font-bold text-yellow-100 tracking-wide flex items-center justify-center gap-2">
-              <Heart className="text-pink-500 fill-pink-500 animate-pulse" size={24} />
-              Personalization Studio
-            </h1>
-            <p className="text-xs text-yellow-200/60 max-w-md mt-1">
-              Customize all sections of the surprise e-card, then export or copy the share link to send to your partner! ❤️
-            </p>
-          </div>
-          <PersonalizationPanel
-            config={config}
-            onSave={handleSaveConfig}
-            onReset={handleResetConfig}
-            isFullPage={true}
-            onBack={() => navigate('main')}
-          />
+      {/* Luxury sound / music controller (Floating at top-right for elegant access) */}
+      {audioStarted && stage > 0 && (
+        <div className="absolute top-6 right-6 z-40 flex items-center gap-2">
+          <button
+            onClick={() => setMuted(!muted)}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-full glassmorphism text-xs font-semibold text-yellow-100 border border-yellow-500/10 hover:bg-white/10 active:scale-95 transition-all cursor-pointer shadow-md"
+            id="mute-music-toggle"
+          >
+            {muted ? <VolumeX size={14} className="text-pink-400" /> : <Volume2 size={14} className="text-yellow-400 animate-pulse" />}
+            <span>{muted ? "Muted" : "Music Loop"}</span>
+          </button>
         </div>
-      ) : (
-        <>
-          {/* Luxury sound / music controller (Floating at top-right for elegant access) */}
-          {audioStarted && stage > 0 && (
-            <div className="absolute top-6 right-6 z-40 flex items-center gap-2">
-              <button
-                onClick={() => setMuted(!muted)}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full glassmorphism text-xs font-semibold text-yellow-100 border border-yellow-500/10 hover:bg-white/10 active:scale-95 transition-all cursor-pointer shadow-md"
-                id="mute-music-toggle"
-              >
-                {muted ? <VolumeX size={14} className="text-pink-400" /> : <Volume2 size={14} className="text-yellow-400 animate-pulse" />}
-                <span>{muted ? "Muted" : "Music Loop"}</span>
-              </button>
-            </div>
-          )}
+      )}
 
-          {/* MAIN STORYBOOK SCREEN */}
-          <main className="flex-1 flex flex-col items-center justify-center relative w-full px-4 py-8 md:py-16">
+      {/* MAIN STORYBOOK SCREEN */}
+      <main className="flex-1 flex flex-col items-center justify-center relative w-full px-4 py-8 md:py-16">
         
         <AnimatePresence mode="wait">
           
@@ -1465,8 +1369,6 @@ export default function App() {
         </AnimatePresence>
 
       </main>
-      </>
-      )}
 
     </div>
   );

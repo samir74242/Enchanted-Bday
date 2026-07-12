@@ -51,7 +51,7 @@ Sameer ❤️`,
       date: " October 17, 2021",
       title: "Our Very First Meeting..",
       story: "It all started on the stairs of your coaching institute—a place that unknowingly changed our lives forever. ❤️ From those shy conversations, stolen glances, and that unforgettable kiss on your cheek 🥹💋 to where we are today... we've come such a long way together. Every step of this journey has given me memories I'll cherish forever, and I wouldn't trade a single one of them. Thank you for being my favorite chapter, my favorite memory, and the most beautiful part of my story. Happy Birthday, my love. ❤️✨\n",
-      image: "images/COUPLE.jpeg?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?q=80&w=600&auto=format&fit=crop",
+      image: "/images/COUPLE.jpeg?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?q=80&w=600&auto=format&fit=crop",
       icon: "Coffee"
     },
     {
@@ -67,7 +67,7 @@ Sameer ❤️`,
       date: "FEBRUARY 7, 2022",
       title: "Our First Video Call",
       story: "I still remember our very first video call. 🥹❤️ I couldn't stop smiling, and you... you were blushing so much that your cheeks turned completely pink. 😊🌸 We were both a little nervous at first, but somehow the conversation just kept flowing. We talked, laughed, teased each other, and before we knew it, hours had passed. ⏳💕 It felt like time had completely forgotten about us. Even today, whenever I think about that call, I can't help but smile because it was one of those moments that made me realize just how special you had become to me. ❤️✨\n",
-      image: "images/VIDEOCALL.jpeg?q=80&w=600&auto=format&fit=crop",
+      image: "/images/VIDEOCALL.jpeg?q=80&w=600&auto=format&fit=crop",
       icon: "Smile"
     },
     {
@@ -137,7 +137,7 @@ Sameer ❤️`,
       hint: "A cozy corner coffee shop... (Hint: The Daily Grind)",
       answer: "Balajee|Restaurant|coffee shop|cafe|\"\"",
       secretMessage: "Perfect! Our little haven where everything started. ☕❤️",
-      secretImage: "images/fiRSTTMEET.jpeg?q=80&w=500&auto=format&fit=crop"
+      secretImage: "/images/fiRSTTMEET.jpeg?q=80&w=500&auto=format&fit=crop"
     },
     {
       id: "c2",
