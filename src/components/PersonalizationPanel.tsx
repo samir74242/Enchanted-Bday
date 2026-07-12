@@ -126,7 +126,7 @@ export const PersonalizationPanel: React.FC<PersonalizationPanelProps> = ({ conf
       const jsonStr = JSON.stringify(localConfig);
       // Base64 encode the config string to pass inside URL hash
       const base64Config = btoa(unescape(encodeURIComponent(jsonStr)));
-      const shareUrl = `${window.location.origin}${window.location.pathname}#config=${base64Config}`;
+      const shareUrl = `${window.location.origin}/#config=${base64Config}`;
       
       navigator.clipboard.writeText(shareUrl);
       setCopied(true);
