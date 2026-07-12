@@ -40,6 +40,56 @@ import { CakeSection } from './components/CakeSection';
 import { AnimatedLetter } from './components/AnimatedLetter';
 import { PersonalizationPanel } from './components/PersonalizationPanel';
 
+function sanitizeConfigPaths(cfg: AppConfig): AppConfig {
+  if (!cfg) return cfg;
+  
+  const fixPath = (p: string | undefined): string | undefined => {
+    if (typeof p !== 'string') return p;
+    const trimmed = p.trim();
+    if (!trimmed) return trimmed;
+    if (/^(https?:\/\/|data:)/i.test(trimmed)) return trimmed;
+    if (!trimmed.startsWith('/')) {
+      return '/' + trimmed;
+    }
+    return trimmed;
+  };
+
+  try {
+    if (cfg.songUrl) cfg.songUrl = fixPath(cfg.songUrl) || "";
+    if (cfg.cakeDecorationImage) cfg.cakeDecorationImage = fixPath(cfg.cakeDecorationImage);
+    
+    if (Array.isArray(cfg.timeline)) {
+      cfg.timeline = cfg.timeline.map((item) => {
+        if (item && item.image) {
+          item.image = fixPath(item.image) || "";
+        }
+        return item;
+      });
+    }
+
+    if (Array.isArray(cfg.gallery)) {
+      cfg.gallery = cfg.gallery.map((item) => {
+        if (item && item.image) {
+          item.image = fixPath(item.image) || "";
+        }
+        return item;
+      });
+    }
+
+    if (Array.isArray(cfg.clues)) {
+      cfg.clues = cfg.clues.map((item) => {
+        if (item && item.secretImage) {
+          item.secretImage = fixPath(item.secretImage) || "";
+        }
+        return item;
+      });
+    }
+  } catch (e) {
+    console.warn("Failed to sanitize config paths", e);
+  }
+  return cfg;
+}
+
 export default function App() {
   // Load configuration from URL Hash (for sharing) -> then localStorage -> then fallback to defaultConfig
   const [config, setConfig] = useState<AppConfig>(() => {
@@ -52,7 +102,7 @@ export default function App() {
         if (parsed.herName && parsed.specialDate) {
           // Save shared config to local storage too
           localStorage.setItem('birthday_story_config', jsonStr);
-          return parsed;
+          return sanitizeConfigPaths(parsed);
         }
       }
     } catch (e) {
@@ -62,13 +112,13 @@ export default function App() {
     try {
       const saved = localStorage.getItem('birthday_story_config');
       if (saved) {
-        return JSON.parse(saved);
+        return sanitizeConfigPaths(JSON.parse(saved));
       }
     } catch (e) {
       console.warn("Failed to load config from localStorage", e);
     }
 
-    return defaultConfig;
+    return sanitizeConfigPaths({ ...defaultConfig });
   });
 
   // Stage Management:
@@ -430,13 +480,14 @@ export default function App() {
 
   // Handle configuration updates from Personalizer Panel
   const handleSaveConfig = (newConfig: AppConfig) => {
-    setConfig(newConfig);
-    localStorage.setItem('birthday_story_config', JSON.stringify(newConfig));
+    const sanitized = sanitizeConfigPaths(newConfig);
+    setConfig(sanitized);
+    localStorage.setItem('birthday_story_config', JSON.stringify(sanitized));
   };
 
   const handleResetConfig = () => {
     localStorage.removeItem('birthday_story_config');
-    setConfig(defaultConfig);
+    setConfig(sanitizeConfigPaths({ ...defaultConfig }));
     // Remove custom hash from URL to fully reset default story
     window.location.hash = '';
   };
