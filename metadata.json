@@ -1,0 +1,6 @@
+{
+  "name": "Enchanted Birthday Story",
+  "description": "A luxury, cinematic, and emotionally unforgettable interactive birthday website featuring procedural audio, customized timelines, galleries, interactive cake, and constellations.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

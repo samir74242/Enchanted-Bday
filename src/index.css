@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  --font-handwritten: "Caveat", cursive;
+}
+
+/* Custom transitions and styles */
+.glassmorphism {
+  background: rgba(36, 8, 23, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(236, 72, 153, 0.15);
+}
+
+.glassmorphism-light {
+  background: rgba(255, 253, 250, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(253, 244, 245, 0.5);
+}
+
+.glassmorphism-dark {
+  background: rgba(22, 4, 14, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+/* Custom typewriter typing effect caret */
+.typewriter-caret::after {
+  content: '|';
+  animation: blink 0.8s step-end infinite;
+}
+
+@keyframes blink {
+  from, to { color: transparent }
+  50% { color: inherit }
+}
+
+/* Hide scrollbars but keep functionality */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Sparkle shine effects */
+.shine-effect {
+  position: relative;
+  overflow: hidden;
+}
+.shine-effect::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0) 40%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0) 60%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(45deg);
+  transition: transform 0.5s ease;
+}
+.shine-effect:hover::after {
+  transform: translate(100%, 100%) rotate(45deg);
+}
+
