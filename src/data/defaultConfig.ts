@@ -4,7 +4,7 @@ export const defaultConfig: AppConfig = {
   herName: "Richuuu",
   yourName: "Sameer",
   specialDate: "17/10/2021",
-  songUrl: "AUDIO/perfect.mp3",
+  songUrl: "/AUDIO/perfect.mp3",
   letterText: `My Dearest Richuuuuuu,
 
 From the moment you walked into my life, everything changed. You brought color to my grey days, warmth to my coldest nights, and a beautiful melody to my quietest moments.
