@@ -62,7 +62,13 @@ export default function App() {
     try {
       const saved = localStorage.getItem('birthday_story_config');
       if (saved) {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        // If the saved config is the old default "Evelyn" template, discard and clear it
+        if (parsed.herName && parsed.herName !== "Evelyn") {
+          return parsed;
+        } else {
+          localStorage.removeItem('birthday_story_config');
+        }
       }
     } catch (e) {
       console.warn("Failed to load config from localStorage", e);
